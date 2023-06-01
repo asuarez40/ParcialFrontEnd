@@ -1,33 +1,40 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import Card from './components/Card'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [nombre, setNombre] = useState("");
+  const [raza, setRaza] = useState("");
+  const [show, setShow] = useState(true);
+
+  const handlerEnviar = (event) => {
+    event.preventDefault();
+    if (nombre.length < 3 || nombre.trim() === "" || raza.length < 6) {
+      alert("La info no es la adecuada");
+    } else {
+      setShow(true);
+    }
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div > 
+      <h1>Ingrese el nombre y raza de su mascota</h1> 
+      <form className='form1' onSubmit={handlerEnviar}>
+        <label>Raza</label>
+       
+        <input  placeholder='Raza' value={raza} onChange={e => setRaza(e.target.value)}/>
+
+        <label>Nombre</label>
+        <input placeholder='Nombre'  value={nombre} onChange={e => setNombre(e.target.value)}/>
+        <button type='submit'>Enviar</button>
+      
+      </form>
+    
+      {show && (
+          <Card nombre={nombre} raza={raza} />
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
